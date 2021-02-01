@@ -2,11 +2,23 @@ version: '3'
 
 services:
 
-  app:
+  api:
     build: ./app
     ports:
-        - 3000:3000
+      - 3000:3000
     restart: unless-stopped
     volumes:
-        - ./app:/usr/src/app
+      - ./app:/usr/src/app
+
+  ui:
+    build: ./app/ui/vue-app
+    ports:
+      - 8080:4000
+    restart: unless-stopped
+    volumes:
+      - ./app/ui/vue-app:/usr/src/ui
   
+  
+    
+    
+

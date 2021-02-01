@@ -11,6 +11,7 @@ RUN apt-get update && apt-get clean
 RUN python3 -m pip install --upgrade pip
 
 # install requirements
+# pipenv lock -r > requirements.txt
 COPY ./requirements.txt .
 RUN pip3 install -r requirements.txt
 
@@ -19,4 +20,3 @@ COPY . .
 
 # run
 CMD uvicorn main:app --reload --host 0.0.0.0 --port 3000
-

@@ -20,9 +20,11 @@ app.include_router(service_3.router, prefix="/api/v1/service_3")
 
 
 # Mounting default Vue files after running npm run build 
+app.mount("/dist", StaticFiles(directory="ui/vue-app/dist"), name="dist")
 app.mount("/css", StaticFiles(directory="ui/vue-app/dist/css"), name="css")
 app.mount("/img", StaticFiles(directory="ui/vue-app/dist/img"), name="img")
 app.mount("/js", StaticFiles(directory="ui/vue-app/dist/js"), name="js")
+
 templates = Jinja2Templates(directory="ui/vue-app/dist/")
 
 @app.get("/", response_class=HTMLResponse)
@@ -30,6 +32,8 @@ async def root(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
 
-
 # pipenv lock -r > requirements.txt
 # uvicorn main:app --reload --host 0.0.0.0 --port 3000
+# sudo docker-compose up
+# sudo docker-compose exec ui bash
+# sudo docker-compose up --remove-orphans --force-recreate --build
