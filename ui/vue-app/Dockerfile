@@ -5,9 +5,11 @@ WORKDIR /usr/src/app
 
 COPY package*.json ./
 
-RUN npm install -g @vue/cli --unsafe-perm
-RUN npm install
 
-COPY ./ ./
+RUN npm install -g @vue/cli-service && npm install
+
+
+COPY . .
+
 
 CMD npm run serve

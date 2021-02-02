@@ -36,3 +36,7 @@ async def root(request: Request):
 # sudo docker-compose up
 # sudo docker-compose exec ui bash / npm / yarn etc
 # sudo docker-compose up --remove-orphans --force-recreate --build
+
+# Portainer (http://localhost:9000/)
+# sudo docker run -d -p 8000:8000 -p 9000:9000 --name=portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce
+

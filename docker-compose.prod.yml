@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+
+  api:
+    build: ./app
+    ports:
+      - '3000:3000'
+    restart: unless-stopped
+    volumes:
+      - ./app:/usr/src/app
+
+  
+  caddy:
+      image: caddy:2.2.1-alpine
+      restart: unless-stopped
+      ports:
+        - "80:80"
+        - "443:443"
+      volumes:
+        - $PWD/Caddyfile:/etc/caddy/Caddyfile
+        - $PWD/site:/srv
+        - caddy_data:/data
+        - caddy_config:/config
+
+
+
+
+volumes:
+  caddy_data:
+  caddy_config:
