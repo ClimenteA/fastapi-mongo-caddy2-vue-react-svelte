@@ -56,12 +56,18 @@ async def root(request: Request):
 # https://github.com/americanexpress/baton
 # sudo cp baton /usr/local/bin
 
+# DEV
+# CMD uvicorn main:app --reload --host 0.0.0.0 --port 3000
+
+# PROD
+# CMD gunicorn main:app --workers=8 -b "0.0.0.0:3000" --worker-class=uvicorn.workers.UvicornWorker --log-level info
+
 
 # baton -u http://localhost:3000 -c 10 -r 1000
 # ====================== Results ======================
 # Total requests:                                  1000
-# Time taken to complete requests:          754.78403ms
-# Requests per second:                             1325
+# Time taken to complete requests:         236.375341ms
+# Requests per second:                             4231
 # ===================== Breakdown =====================
 # Number of connection errors:                        0
 # Number of 1xx responses:                            0
@@ -75,8 +81,8 @@ async def root(request: Request):
 # baton -u http://localhost:3000 -c 10 -r 10000
 # ====================== Results ======================
 # Total requests:                                 10000
-# Time taken to complete requests:         6.271985457s
-# Requests per second:                             1594
+# Time taken to complete requests:         2.526745739s
+# Requests per second:                             3958
 # ===================== Breakdown =====================
 # Number of connection errors:                        0
 # Number of 1xx responses:                            0
@@ -90,8 +96,8 @@ async def root(request: Request):
 # baton -u http://localhost:3000 -c 10 -r 50000
 # ====================== Results ======================
 # Total requests:                                 50000
-# Time taken to complete requests:        34.444221227s
-# Requests per second:                             1452
+# Time taken to complete requests:        14.403240641s
+# Requests per second:                             3471
 # ===================== Breakdown =====================
 # Number of connection errors:                        0
 # Number of 1xx responses:                            0

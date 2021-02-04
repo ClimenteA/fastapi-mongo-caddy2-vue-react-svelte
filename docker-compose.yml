@@ -45,7 +45,3 @@ services:
       ME_CONFIG_MONGODB_ADMINPASSWORD: admin
     depends_on: 
       - mongo
-
-    
-    
-
