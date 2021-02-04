@@ -19,7 +19,7 @@ app.include_router(service_2.router, prefix="/api/v1/service_2")
 app.include_router(service_3.router, prefix="/api/v1/service_3")
 
 # Mounting default Vue files after running npm run build 
-app.mount("/dist", StaticFiles(directory="dist"), name="dist")
+app.mount("/dist", StaticFiles(directory="dist/"), name="dist")
 app.mount("/css", StaticFiles(directory="dist/css"), name="css")
 app.mount("/img", StaticFiles(directory="dist/img"), name="img")
 app.mount("/js", StaticFiles(directory="dist/js"), name="js")
@@ -33,10 +33,70 @@ async def root(request: Request):
 
 # pipenv lock -r > requirements.txt
 # uvicorn main:app --reload --host 0.0.0.0 --port 3000
-# sudo docker-compose up
-# sudo docker-compose exec ui bash / npm / yarn etc
-# sudo docker-compose up --remove-orphans --force-recreate --build
+# docker-compose up
+# docker-compose exec ui (service name) bash
+# docker-compose up --remove-orphans --force-recreate --build
+# sudo chmod 777 dist
+
+# Remove the need to add sudo for each docker command
+# sudo groupadd docker
+# sudo usermod -aG docker $USER
 
 # Portainer (http://localhost:9000/)
-# sudo docker run -d -p 8000:8000 -p 9000:9000 --name=portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce
+# docker run -d -p 8000:8000 -p 9000:9000 --name=portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce
 
+# https://docs.docker.com/engine/install/linux-postinstall/
+
+
+# Remove unwanted virtualenvs
+# cd /home/acmt/.local/share/virtualenvs
+
+
+# LOAD TESTING 
+# https://github.com/americanexpress/baton
+# sudo cp baton /usr/local/bin
+
+
+# baton -u http://localhost:3000 -c 10 -r 1000
+# ====================== Results ======================
+# Total requests:                                  1000
+# Time taken to complete requests:          754.78403ms
+# Requests per second:                             1325
+# ===================== Breakdown =====================
+# Number of connection errors:                        0
+# Number of 1xx responses:                            0
+# Number of 2xx responses:                         1000
+# Number of 3xx responses:                            0
+# Number of 4xx responses:                            0
+# Number of 5xx responses:                            0
+# =====================================================
+
+
+# baton -u http://localhost:3000 -c 10 -r 10000
+# ====================== Results ======================
+# Total requests:                                 10000
+# Time taken to complete requests:         6.271985457s
+# Requests per second:                             1594
+# ===================== Breakdown =====================
+# Number of connection errors:                        0
+# Number of 1xx responses:                            0
+# Number of 2xx responses:                        10000
+# Number of 3xx responses:                            0
+# Number of 4xx responses:                            0
+# Number of 5xx responses:                            0
+# =====================================================
+
+
+# baton -u http://localhost:3000 -c 10 -r 50000
+# ====================== Results ======================
+# Total requests:                                 50000
+# Time taken to complete requests:        34.444221227s
+# Requests per second:                             1452
+# ===================== Breakdown =====================
+# Number of connection errors:                        0
+# Number of 1xx responses:                            0
+# Number of 2xx responses:                        50000
+# Number of 3xx responses:                            0
+# Number of 4xx responses:                            0
+# Number of 5xx responses:                            0
+# =====================================================

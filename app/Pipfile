@@ -9,8 +9,11 @@ python-dotenv = "*"
 uvicorn = "*"
 aiofiles = "*"
 jinja2 = "*"
+pymongo = "*"
 
 [dev-packages]
+pytest = "*"
+assertpy = "*"
 
 [requires]
 python_version = "3.8"

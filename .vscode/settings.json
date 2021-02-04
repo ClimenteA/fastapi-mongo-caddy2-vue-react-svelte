@@ -1,3 +1,5 @@
 {
-    "python.pythonPath": "/bin/python3"
+    "python.pythonPath": "/home/acmt/.virtualenvs/app-FzQGSFjf/bin/python",
+    "python.analysis.extraPaths": ["app"]
 }
+
