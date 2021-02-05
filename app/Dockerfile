@@ -19,7 +19,7 @@ RUN pip3 install -r requirements.txt
 COPY . .
 
 # run dev
-CMD uvicorn main:app --reload --host 0.0.0.0 --port 3000
+# CMD uvicorn main:app --reload --host 0.0.0.0 --port 3000
 
 # run prod
 # CMD gunicorn main:app --workers=8 -b "0.0.0.0:3000" --worker-class=uvicorn.workers.UvicornWorker --log-level info

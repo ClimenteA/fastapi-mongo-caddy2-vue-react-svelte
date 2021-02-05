@@ -2,15 +2,33 @@ version: '3'
 
 services:
 
-  api:
+  app_fastapi_prod:
+    container_name: app_fastapi_prod
     build: ./app
+    command: gunicorn main:app --workers=8 -b "0.0.0.0:3000" --worker-class=uvicorn.workers.UvicornWorker --log-level info
     ports:
       - '3000:3000'
     restart: unless-stopped
     volumes:
       - ./app:/usr/src/app
+    depends_on: 
+      - mongo_db
+      - redis_db
 
-  
+  redis_db_prod:
+    container_name: redis_db_prod
+    image: redis:6-buster
+    restart: unless-stopped
+    ports:
+      - '6379:6379'
+    
+  mongo_db_prod:
+    container_name: mongo_db_prod
+    image: mongo:4.2-bionic
+    restart: unless-stopped
+    ports:
+      - '27017:27017'
+         
   caddy:
       image: caddy:2.2.1-alpine
       restart: unless-stopped
@@ -22,8 +40,6 @@ services:
         - $PWD/site:/srv
         - caddy_data:/data
         - caddy_config:/config
-
-
 
 
 volumes:
