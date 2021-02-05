@@ -12,8 +12,9 @@ services:
     volumes:
       - ./app:/usr/src/app
     depends_on: 
-      - mongo_db
-      - redis_db
+      - mongo_db_prod
+      - redis_db_prod
+
 
   redis_db_prod:
     container_name: redis_db_prod
@@ -22,6 +23,7 @@ services:
     ports:
       - '6379:6379'
     
+
   mongo_db_prod:
     container_name: mongo_db_prod
     image: mongo:4.2-bionic
@@ -29,17 +31,23 @@ services:
     ports:
       - '27017:27017'
          
-  caddy:
-      image: caddy:2.2.1-alpine
-      restart: unless-stopped
-      ports:
-        - "80:80"
-        - "443:443"
-      volumes:
-        - $PWD/Caddyfile:/etc/caddy/Caddyfile
-        - $PWD/site:/srv
-        - caddy_data:/data
-        - caddy_config:/config
+
+  reverse_proxy:
+    container_name: caddy_reverse_proxy
+    image: caddy:2.2.1-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      ACME_AGREE: "true"
+      DOMAIN: "my.domain"
+      EMAIL: "my@email" 
+    volumes:
+      - $PWD/Caddyfile:/etc/caddy/Caddyfile
+      - $PWD/app/dist:/srv
+      - caddy_data:/data
+      - caddy_config:/config
 
 
 volumes:

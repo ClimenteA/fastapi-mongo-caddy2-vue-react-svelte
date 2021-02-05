@@ -1,0 +1,5 @@
+# instead of localhost add domains
+localhost { 
+#    tls <EMAIL_ADDRESS>
+    file_server browse
+}
