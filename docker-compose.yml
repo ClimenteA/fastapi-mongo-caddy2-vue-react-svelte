@@ -2,8 +2,8 @@ version: '3'
 
 services:
 
-  api:
-    container_name: api
+  app_fastapi:
+    container_name: app_fastapi
     build: ./app
     ports:
       - '3000:3000'
@@ -11,11 +11,11 @@ services:
     volumes:
       - ./app:/usr/src/app
     depends_on: 
-      - mongo
+      - mongo_db
+      - redis_db
 
-
-  ui:
-    container_name: ui
+  ui_vue:
+    container_name: ui_vue
     build: ./ui/vue-app
     ports:
       - '5001:5001'
@@ -26,16 +26,22 @@ services:
     environment:
       - npm_config_unsafe_perm=true
 
-  mongo:
-    container_name: mongo
+  redis_db:
+    container_name: redis_db
+    image: redis:6-buster
+    restart: unless-stopped
+    ports:
+      - '6379:6379'
+    
+  mongo_db:
+    container_name: mongo_db
     image: mongo:4.2-bionic
     restart: unless-stopped
     ports:
       - '27017:27017'
-    
       
-  mongo-express:
-    container_name: mongo-dashboard
+  mongo_express:
+    container_name: mongo_express
     image: mongo-express
     restart: unless-stopped
     ports:
@@ -44,4 +50,4 @@ services:
       ME_CONFIG_MONGODB_ADMINUSERNAME: admin
       ME_CONFIG_MONGODB_ADMINPASSWORD: admin
     depends_on: 
-      - mongo
+      - mongo_db

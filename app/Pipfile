@@ -13,6 +13,7 @@ pymongo = "*"
 gunicorn = "*"
 uvloop = "*"
 httptools = "*"
+redis = "*"
 
 [dev-packages]
 pytest = "*"
