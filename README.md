@@ -33,5 +33,9 @@ Since from the frontend we need only the `dist` folder we get after running `npm
 
 ### Production setup
 
-In progress...
 
+- Copy fontend `dist` folder to `app` folder 
+
+Currently it's setup to work with Vuejs, but if the frontend project structure it's the same (`dist/css,img,js,index.html`) then you don't need to update static files in `main.py` file.
+
+In progress...
