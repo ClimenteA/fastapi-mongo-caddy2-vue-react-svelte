@@ -51,7 +51,7 @@ async def root():
 # PROD
 # CMD gunicorn main:app --workers=8 -b "0.0.0.0:3000" --worker-class=uvicorn.workers.UvicornWorker --log-level info
 
-
+# FastAPI
 # baton -u http://localhost:3000 -c 10 -r 1000
 # ====================== Results ======================
 # Total requests:                                  1000
@@ -65,6 +65,14 @@ async def root():
 # Number of 4xx responses:                            0
 # Number of 5xx responses:                            0
 # =====================================================
+
+
+#Caddy
+
+
+
+
+
 
 
 # baton -u http://localhost:3000 -c 10 -r 10000

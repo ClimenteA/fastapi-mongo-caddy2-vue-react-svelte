@@ -1,5 +1,7 @@
-# instead of localhost add domains
+#Add domains
 localhost { 
-#    tls <EMAIL_ADDRESS>
+    # tls may@gmail.com
+    encode gzip
     file_server browse
+    reverse_proxy localhost:3000
 }

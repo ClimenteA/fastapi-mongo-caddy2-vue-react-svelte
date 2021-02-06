@@ -5,7 +5,7 @@ services:
   app_fastapi_prod:
     container_name: app_fastapi_prod
     build: ./app
-    command: gunicorn main:app --workers=8 -b "0.0.0.0:3000" --worker-class=uvicorn.workers.UvicornWorker --log-level info
+    command: gunicorn main_prod:app --workers=8 -b "0.0.0.0:3000" --worker-class=uvicorn.workers.UvicornWorker --log-level info
     ports:
       - '3000:3000'
     restart: unless-stopped
