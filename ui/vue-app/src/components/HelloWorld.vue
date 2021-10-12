@@ -1,32 +1,39 @@
-<template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
+<script setup>
+import { ref } from 'vue'
 
-  </div>
-</template>
+defineProps({
+  msg: String
+})
 
-<script>
-export default {
-  name: 'HelloWorld',
-  props: {
-    msg: String
-  }
-}
+const count = ref(0)
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+<template>
+  <h1>{{ msg }}</h1>
+
+  <p>
+    Recommended IDE setup:
+    <a href="https://code.visualstudio.com/" target="_blank">VSCode</a>
+    +
+    <a href="https://github.com/johnsoncodehk/volar" target="_blank">Volar</a>
+  </p>
+
+  <p>
+    <a href="https://vitejs.dev/guide/features.html" target="_blank">
+      Vite Documentation
+    </a>
+    |
+    <a href="https://v3.vuejs.org/" target="_blank">Vue 3 Documentation</a>
+  </p>
+
+  <button type="button" @click="count++">count is: {{ count }}</button>
+  <p>
+    Edit
+    <code>components/HelloWorld.vue</code> to test hot module replacement.
+  </p>
+</template>
+
 <style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
 a {
   color: #42b983;
 }

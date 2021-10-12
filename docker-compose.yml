@@ -2,53 +2,92 @@ version: '3'
 
 services:
 
-  app_fastapi:
-    container_name: app_fastapi
+  fast_api_local:
+    container_name: fast_api_local
     build: ./app
-    command: uvicorn main:app --reload --host 0.0.0.0 --port 3000
+    command: uvicorn main:app --reload --host 0.0.0.0 --port 5000
+    ports:
+      - '5000:5000'
+    restart: unless-stopped
+    volumes:
+      - ./app:/usr/src/app
+
+
+  # ui_vue:
+  #   container_name: ui_vue
+  #   build: ./ui/vue-app
+  #   command: npm run dev
+  #   ports:
+  #     - '3000:3000'
+  #   restart: unless-stopped
+  #   volumes:
+  #     - ./ui/vue-app:/usr/src/app
+  #     - /usr/src/app/node_modules
+  #   environment:
+  #     - npm_config_unsafe_perm=true
+
+
+  # ui_react:
+  #   container_name: ui_react
+  #   build: ./ui/react-app
+  #   command: npm run dev
+  #   ports:
+  #     - '3000:3000'
+  #   restart: unless-stopped
+  #   volumes:
+  #     - ./ui/react-app:/usr/src/app
+  #     - /usr/src/app/node_modules
+  #   environment:
+  #     - npm_config_unsafe_perm=true
+
+
+  ui_svelte:
+    container_name: ui_svelte
+    build: ./ui/svelte-app
+    command: npm run dev
     ports:
       - '3000:3000'
     restart: unless-stopped
     volumes:
-      - ./app:/usr/src/app
-    depends_on: 
-      - mongo_db
-      - redis_db
-
-  ui_vue:
-    container_name: ui_vue
-    build: ./ui/vue-app
-    ports:
-      - '5001:5001'
-    restart: unless-stopped
-    volumes:
-      - ./ui/vue-app:/usr/src/app
+      - ./ui/svelte-app:/usr/src/app
       - /usr/src/app/node_modules
     environment:
       - npm_config_unsafe_perm=true
 
-  redis_db:
-    container_name: redis_db
-    image: redis:6-buster
-    restart: unless-stopped
-    ports:
-      - '6379:6379'
-    
-  mongo_db:
-    container_name: mongo_db
+
+
+  # redis_db_local:
+  #   container_name: redis_db_local
+  #   image: redis:6-buster
+  #   restart: unless-stopped
+  #   ports:
+  #     - '6379:6379'
+
+
+  mongo_db_local:
+    container_name: mongo_db_local
     image: mongo:4.2-bionic
     restart: unless-stopped
     ports:
       - '27017:27017'
+    # environment:
+    #   MONGO_INITDB_ROOT_USERNAME: root
+    #   MONGO_INITDB_ROOT_PASSWORD: example
+
       
-  mongo_express:
-    container_name: mongo_express
+  mongo_express_local:
+    container_name: mongo_express_local
     image: mongo-express
     restart: unless-stopped
     ports:
       - '8081:8081'
     environment:
-      ME_CONFIG_MONGODB_SERVER: mongo_db
-    depends_on: 
-      - mongo_db
+        ME_CONFIG_MONGODB_SERVER: mongo_db_local
+    #   ME_CONFIG_MONGODB_ADMINUSERNAME: root
+    #   ME_CONFIG_MONGODB_ADMINPASSWORD: example
+    #   ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
     
+    
+
+
+  

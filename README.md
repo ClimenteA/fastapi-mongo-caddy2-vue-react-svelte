@@ -1,4 +1,15 @@
-# fastapi-mongo-vue
+# FastApi + Vue/React/Svelte + MongoDB
+
+
+### How to work with this setup
+
+Start it with: 
+- `docker-compose up`
+
+
+
+
+
 
 A boilerplate for FastAPI applications. 
 
@@ -8,11 +19,6 @@ A boilerplate for FastAPI applications.
 - MongoDB 
 - Redis
 
-
-### How to work with this setup
-
-Start it with: 
-- `docker-compose up`
 
 You can choose to work with either from docker containers either the usual way.
 If you install new packages in local virtualenv you need to export requirements.txt and rebuild the docker containers:
