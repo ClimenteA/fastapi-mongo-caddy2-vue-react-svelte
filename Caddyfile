@@ -1,1 +1,18 @@
+{
+    # email some@email.com
+    acme_ca https://acme-staging-v02.api.letsencrypt.org/directory
+}
 
+
+localhost {
+    reverse_proxy fast_api_prod:5000
+}
+
+# https://api.backend.example.com {
+#     reverse_proxy django:8000
+# }
+
+
+# https://www.example.com  {
+#     reverse_proxy nuxt:3000
+# }

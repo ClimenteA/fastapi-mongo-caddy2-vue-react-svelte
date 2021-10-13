@@ -1,44 +1,110 @@
 version: '3'
 
+
+volumes:
+  mongodata:
+  caddy_data:
+    external: true
+  caddy_config:
+
+networks:
+  web:
+    external: true
+
+
 services:
 
-  app_fast_api_prod:
-    container_name: app_fast_api_prod
+  fast_api_prod:
+    container_name: fast_api_prod
     build: ./app
-    command: gunicorn main_prod:app --workers=8 -b "0.0.0.0:3000" --worker-class=uvicorn.workers.UvicornWorker --log-level info
-    ports:
-      - '3000:3000'
+    command: uvicorn main:app --host 0.0.0.0 --port 5000
     restart: unless-stopped
+    ports:
+      - '5000:5000'
     volumes:
       - ./app:/usr/src/app
- 
+    environment:
+      - 'MONGO_DATABASE_NAME=${MONGO_DATABASE_NAME}'
+      - 'MONGO_CONNECTION_STRING=${MONGO_CONNECTION_STRING}'
+    networks:
+      - web
+
 
   mongo_db_prod:
     container_name: mongo_db_prod
     image: mongo:4.2-bionic
     restart: unless-stopped
-    ports:
-      - '27017:27017'
-         
+    volumes:
+      - 'mongodata:/data/database'  
+    environment:
+      - 'MONGO_DATABASE_NAME=${MONGO_DATABASE_NAME}'
+      - 'MONGO_CONNECTION_STRING=${MONGO_CONNECTION_STRING}'
+    networks:
+      - web
+  
 
-  reverse_proxy:
-    container_name: caddy_reverse_proxy
+  caddy_prod:
+    container_name: caddy_prod
     image: caddy:2-alpine
     restart: unless-stopped
     ports:
       - "80:80"
       - "443:443"
-    environment:
-      ACME_AGREE: "true"
-      DOMAIN: "my.domain"
-      EMAIL: "my@email" 
     volumes:
+      - $PWD/ui/svelte-app/dist/index.html:/usr/share/caddy/index.html
       - $PWD/Caddyfile:/etc/caddy/Caddyfile
-      - $PWD/app/dist:/srv
+      - $PWD/site:/srv
       - caddy_data:/data
       - caddy_config:/config
+    networks:
+      - web
 
 
-volumes:
-  caddy_data:
-  caddy_config:
+
+  # Just keep uncommented only the Frontend framework you want to work on
+
+  # ui_vue:
+  #   container_name: ui_vue
+  #   build: ./ui/vue-app
+  #   command: npm run dev
+  #   ports:
+  #     - '3000:3000'
+  #   restart: unless-stopped
+  #   volumes:
+  #     - ./ui/vue-app:/usr/src/app
+  #     - /usr/src/app/node_modules
+  #   environment:
+  #     - npm_config_unsafe_perm=true
+
+
+  # ui_react:
+  #   container_name: ui_react
+  #   build: ./ui/react-app
+  #   command: npm run dev
+  #   ports:
+  #     - '3000:3000'
+  #   restart: unless-stopped
+  #   volumes:
+  #     - ./ui/react-app:/usr/src/app
+  #     - /usr/src/app/node_modules
+  #   environment:
+  #     - npm_config_unsafe_perm=true
+
+
+  # ui_svelte:
+  #   container_name: ui_svelte
+  #   build: ./ui/svelte-app
+  #   command: npm run dev
+  #   ports:
+  #     - '3000:3000'
+  #   restart: unless-stopped
+  #   volumes:
+  #     - ./ui/svelte-app:/usr/src/app
+  #     - /usr/src/app/node_modules
+  #   environment:
+  #     - npm_config_unsafe_perm=true
+
+
+
+# docker network create web
+# docker volume create --name=caddy_data
