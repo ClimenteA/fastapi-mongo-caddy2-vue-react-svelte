@@ -13,7 +13,7 @@ services:
       - ./app:/usr/src/app
     environment:
       - 'MONGO_DATABASE_NAME=${MONGO_DATABASE_NAME}'
-      - 'MONGO_CONNECTION_STRING=${MONGODB_URL}'
+      - 'MONGO_CONNECTION_STRING=${MONGO_CONNECTION_STRING}'
 
   
   # Just keep uncommented only the Frontend framework you want to work on
@@ -66,11 +66,9 @@ services:
     restart: unless-stopped
     volumes:
       - 'mongodata:/data/database'  
-    ports:
-      - '27017:27017'
     environment:
       - 'MONGO_DATABASE_NAME=${MONGO_DATABASE_NAME}'
-      - 'MONGO_CONNECTION_STRING=${MONGODB_URL}'
+      - 'MONGO_CONNECTION_STRING=${MONGO_CONNECTION_STRING}'
   
 
   mongo_express_local:
@@ -80,8 +78,8 @@ services:
     ports:
       - '8081:8081'
     environment:
-      ME_CONFIG_MONGODB_URL: ${MONGODB_URL}
-      
+      - 'ME_CONFIG_MONGODB_URL=${MONGO_CONNECTION_STRING}'
+
 
   # Add redis for some background jobs if needed
   
