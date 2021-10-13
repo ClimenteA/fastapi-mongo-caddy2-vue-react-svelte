@@ -1,7 +1,1 @@
-#Add domains
-localhost { 
-    # tls may@gmail.com
-    encode gzip
-    file_server browse
-    reverse_proxy localhost:3000
-}
+

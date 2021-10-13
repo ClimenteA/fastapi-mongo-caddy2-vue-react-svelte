@@ -1,1 +1,0 @@
-#Commun funcs for all services

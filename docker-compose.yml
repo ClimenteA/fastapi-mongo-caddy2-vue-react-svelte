@@ -11,7 +11,12 @@ services:
     restart: unless-stopped
     volumes:
       - ./app:/usr/src/app
+    environment:
+      - 'MONGO_DATABASE_NAME=${MONGO_DATABASE_NAME}'
+      - 'MONGO_CONNECTION_STRING=${MONGODB_URL}'
 
+  
+  # Just keep uncommented only the Frontend framework you want to work on
 
   # ui_vue:
   #   container_name: ui_vue
@@ -55,7 +60,31 @@ services:
       - npm_config_unsafe_perm=true
 
 
+  mongo_db_local:
+    container_name: mongo_db_local
+    image: mongo:4.2-bionic
+    restart: unless-stopped
+    volumes:
+      - 'mongodata:/data/database'  
+    ports:
+      - '27017:27017'
+    environment:
+      - 'MONGO_DATABASE_NAME=${MONGO_DATABASE_NAME}'
+      - 'MONGO_CONNECTION_STRING=${MONGODB_URL}'
+  
 
+  mongo_express_local:
+    container_name: mongo_express_local
+    image: mongo-express
+    restart: unless-stopped
+    ports:
+      - '8081:8081'
+    environment:
+      ME_CONFIG_MONGODB_URL: ${MONGODB_URL}
+      
+
+  # Add redis for some background jobs if needed
+  
   # redis_db_local:
   #   container_name: redis_db_local
   #   image: redis:6-buster
@@ -64,30 +93,7 @@ services:
   #     - '6379:6379'
 
 
-  mongo_db_local:
-    container_name: mongo_db_local
-    image: mongo:4.2-bionic
-    restart: unless-stopped
-    ports:
-      - '27017:27017'
-    # environment:
-    #   MONGO_INITDB_ROOT_USERNAME: root
-    #   MONGO_INITDB_ROOT_PASSWORD: example
-
-      
-  mongo_express_local:
-    container_name: mongo_express_local
-    image: mongo-express
-    restart: unless-stopped
-    ports:
-      - '8081:8081'
-    environment:
-        ME_CONFIG_MONGODB_SERVER: mongo_db_local
-    #   ME_CONFIG_MONGODB_ADMINUSERNAME: root
-    #   ME_CONFIG_MONGODB_ADMINPASSWORD: example
-    #   ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
-    
-    
-
 
   
+volumes:
+  mongodata:
