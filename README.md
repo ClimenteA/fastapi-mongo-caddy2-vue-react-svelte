@@ -4,7 +4,7 @@ A simple boilerplate for FastAPI single page applications.
 
 There are 2 environments available one for production with `Caddy2` as a reverse proxy and one for development.
 
-You can choose to work with either from docker containers or not.
+You can choose to work with docker containers or not.
 
 In the `app` folder we have the `FastAPI` code. Make sure to add all dependencies in `requirements.txt`.
 In the `ui` folder we have 3 boilerplate folders created with `vite` (Vue, React, Svelte). 
