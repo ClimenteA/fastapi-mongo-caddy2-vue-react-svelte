@@ -5,14 +5,13 @@
 
 
 localhost {
-    reverse_proxy fast_api_prod:5000
+
+    reverse_proxy /api/* fast_api_prod:5000
+    
+    encode zstd gzip
+	templates
+	file_server browse
+
 }
 
-# https://api.backend.example.com {
-#     reverse_proxy django:8000
-# }
 
-
-# https://www.example.com  {
-#     reverse_proxy nuxt:3000
-# }

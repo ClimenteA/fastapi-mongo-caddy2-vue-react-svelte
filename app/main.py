@@ -32,7 +32,7 @@ app.include_router(service_3.router, prefix="/api/v1/service_3")
 
 
 
-@app.get("/")
+@app.get("/api/save")
 async def root():
     
     with collection("MyCollection") as c:

@@ -1,5 +1,4 @@
 import os
-import logging as log
 from pymongo import MongoClient
 from contextlib import contextmanager
 
