@@ -12,7 +12,7 @@ services:
   fast_api_prod:
     container_name: fast_api_prod
     build: ./app
-    command: uvicorn main:app --proxy-headers --host 0.0.0.0 --port 5000
+    command: ${RUN_API_COMMAND}
     restart: unless-stopped
     volumes:
       - ./app:/usr/src/app

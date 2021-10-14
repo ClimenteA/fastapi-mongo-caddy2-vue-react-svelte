@@ -1,9 +1,10 @@
 {
-    # email some@email.com
+    # Add a valid email address here and comment the line bellow
     acme_ca https://acme-staging-v02.api.letsencrypt.org/directory
 }
 
 
+# Change `localhost` with your needed domain
 localhost {
 
     reverse_proxy /api/* fast_api_prod:5000

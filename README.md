@@ -1,59 +1,51 @@
 # FastApi + Vue/React/Svelte + MongoDB
 
+A simple boilerplate for FastAPI single page applications. 
 
-### How to work with this setup
+There are 2 environments available one for production with `Caddy2` as a reverse proxy and one for development.
 
-Start it with: 
-- `docker-compose up`
+You can choose to work with either from docker containers or not.
 
-
-
-
-
-
-A boilerplate for FastAPI applications. 
-
-- FastAPI (easy async, fast and easy to use)
-- Vue (but can be replaced with any other framework)
-- Caddy2 (because it has automatic SSL and easy configuration)
-- MongoDB 
-- Redis
+In the `app` folder we have the `FastAPI` code. Make sure to add all dependencies in `requirements.txt`.
+In the `ui` folder we have 3 boilerplate folders created with `vite` (Vue, React, Svelte). 
 
 
-You can choose to work with either from docker containers either the usual way.
-If you install new packages in local virtualenv you need to export requirements.txt and rebuild the docker containers:
-- `pipenv lock -r > requirements.txt`
 
-The same is the case for node.
+# Development
 
-Since from the frontend we need only the `dist` folder we get after running `npm run build` using docker for that it's optional. **Any frontend framework can be used**, as long it's an SPA. Make sure you add the static folders/files in `main.py` file. 
+- CD in the `app` folder and start the `FastAPI` with  `uvicorn main:app --reload --host 0.0.0.0 --port 5000` (see the api at `localhost:5000`);
+- CD in the `ui/your-prefered-framework` folder and start the ui with `npm run dev` (see the frontend at `localhost:3000`);
+
+You can change the folder structure as you want. 
+This setup is focused on making simple, easy to modify production and development environment.
 
 
-### Manage docker with Portainer 
+# Production
+
+Update `Caddyfile` with:
+- a valid email(used for https);
+- a valid domain name in place of localhost;
+- update `.env` file as needed (you may need to change `UI_DIST_DIR=/ui/svelte-app/dist` with your choosed frontend framework);
+- run `npm run build` to let `vite` generate the `dist` folder.
+
+
+Notice in the `docker-compose.prod.yml` that we didn't exposed any ports only `Caddy2` will handle interaction with the outside world.
+
+When the root of the domain name will be accessed, `index.html` file will be served.
+
+
+
+
+
+## Utils
+
+- Remove the need to add `sudo` for each docker command: `sudo groupadd docker` and `sudo usermod -aG docker $USER`
 - Install portainer with: `docker run -d -p 8000:8000 -p 9000:9000 --name=portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce`
 - Web interface will be at: `http://localhost:9000/`
-
-
-### Debug docker commands
-- see logs for a particular app: `docker-compose logs -f app_fastapi`
-- enter inside an app with: `docker-compose exec app_fastapi bash or \bin\sh for alpine versions`
-- stop a container app: `docker-compose stop app_fastapi`
-- start a container app: `docker-compose up app_fastapi`
-- Delete unwanted virtualenvs: `cd /home/acmt/.local/share/virtualenvs` (ubuntu)
+- see logs for a particular app: `docker-compose logs -f container_name`
+- enter inside an app with: `docker-compose exec container_name bash or \bin\sh for alpine versions`
+- stop a container app: `docker-compose stop container_name`
+- start a container app: `docker-compose up container_name`
+- Delete unwanted virtualenvs: `cd /home/user/.local/share/virtualenvs` (ubuntu)
 - DEV start: `uvicorn main:app --reload --host 0.0.0.0 --port 3000`
 - PROD start: `gunicorn main:app --workers=8 -b "0.0.0.0:3000" --worker-class=uvicorn.workers.UvicornWorker --log-level info`
-- Change permision of a file/folder: `sudo chmod 777 dist`
-- Remove the need to add `sudo` for each docker command: `sudo groupadd docker` and `sudo usermod -aG docker $USER`
-
-
-
-
-
-### Production setup
-
-
-- Copy fontend `dist` folder to `app` folder 
-
-Currently it's setup to work with Vuejs, but if the frontend project structure it's the same (`dist/css,img,js,index.html`) then you don't need to update static files in `main.py` file.
-
-In progress...
