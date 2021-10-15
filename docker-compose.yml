@@ -15,46 +15,16 @@ services:
       - 'MONGO_DATABASE_NAME=${MONGO_DATABASE_NAME}'
       - 'MONGO_CONNECTION_STRING=${MONGO_CONNECTION_STRING_LOCAL}'
 
-  
-  # Just keep uncommented only the Frontend framework you want to work on
-
-  # ui_vue:
-  #   container_name: ui_vue
-  #   build: ./ui/vue-app
-  #   command: npm run dev
-  #   ports:
-  #     - '3000:3000'
-  #   restart: unless-stopped
-  #   volumes:
-  #     - ./ui/vue-app:/usr/src/app
-  #     - /usr/src/app/node_modules
-  #   environment:
-  #     - npm_config_unsafe_perm=true
-
-
-  # ui_react:
-  #   container_name: ui_react
-  #   build: ./ui/react-app
-  #   command: npm run dev
-  #   ports:
-  #     - '3000:3000'
-  #   restart: unless-stopped
-  #   volumes:
-  #     - ./ui/react-app:/usr/src/app
-  #     - /usr/src/app/node_modules
-  #   environment:
-  #     - npm_config_unsafe_perm=true
-
-
-  ui_svelte:
-    container_name: ui_svelte
-    build: ./ui/svelte-app
+      
+  ui:
+    container_name: ui
+    build: ${UI_DIR} 
     command: npm run dev
     ports:
       - '3000:3000'
     restart: unless-stopped
     volumes:
-      - ./ui/svelte-app:/usr/src/app
+      - ${UI_DIR}:/usr/src/app
       - /usr/src/app/node_modules
     environment:
       - npm_config_unsafe_perm=true
@@ -79,17 +49,6 @@ services:
       - '8081:8081'
     environment:
       - 'ME_CONFIG_MONGODB_URL=${MONGO_CONNECTION_STRING_LOCAL}'
-
-
-  # Add redis for some background jobs if needed
-  
-  # redis_db_local:
-  #   container_name: redis_db_local
-  #   image: redis:6-buster
-  #   restart: unless-stopped
-  #   ports:
-  #     - '6379:6379'
-
 
 
   
