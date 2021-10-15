@@ -12,7 +12,7 @@ services:
   fast_api_prod:
     container_name: fast_api_prod
     build: ./app
-    command: ${RUN_API_COMMAND}
+    command: gunicorn main:app --workers=4 -b "0.0.0.0:5000" --worker-class=uvicorn.workers.UvicornWorker --log-level info
     restart: unless-stopped
     volumes:
       - ./app:/usr/src/app
