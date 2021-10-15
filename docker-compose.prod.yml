@@ -40,7 +40,7 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - $PWD${UI_DIST_DIR}:/srv
+      - ./ui/dist:/srv #update this as needed
       - $PWD/Caddyfile:/etc/caddy/Caddyfile
       - caddy_data:/data
       - caddy_config:/config

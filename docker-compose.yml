@@ -18,13 +18,13 @@ services:
       
   ui:
     container_name: ui
-    build: ${UI_DIR} 
+    build: ./ui #update this as needed
     command: npm run dev
     ports:
       - '3000:3000'
     restart: unless-stopped
     volumes:
-      - ${UI_DIR}:/usr/src/app
+      - ./ui:/usr/src/app #update this as needed
       - /usr/src/app/node_modules
     environment:
       - npm_config_unsafe_perm=true
