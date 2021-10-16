@@ -25,7 +25,7 @@ services:
     restart: unless-stopped
     volumes:
       - ./ui:/usr/src/app #update this as needed
-      - /usr/src/app/node_modules
+      - ./ui/node_modules:/usr/src/app/node_modules
     environment:
       - npm_config_unsafe_perm=true
 
